@@ -5,3 +5,4 @@ a countdown page:
 - ✓ stop also the sound
 - ✓ add seconds
 - ✓ disable the inputs while counting
+- pressing enter in the input to start
