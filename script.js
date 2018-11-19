@@ -1,12 +1,16 @@
 var isCounting = false;
 var interval = null;
 var secs = 0;
+var audio = new Audio('Alarm-tone.mp3');
 
 function playAlarm() {
-    var audio = new Audio('Alarm-tone.mp3');
-    audio.currentTime = 0;
     audio.loop = true;
     audio.play();
+}
+
+function stopAlarm() {
+    audio.pause();
+    audio.currentTime = 0;
 }
 
 function getUI(secsNow, minsNow, hoursNow) {
@@ -17,7 +21,7 @@ function getUI(secsNow, minsNow, hoursNow) {
     return ui;
 }
 
-function theInterval() {
+function doTheIntervalJob() {
     secs--;
     var hoursNow = parseInt(secs / 60 / 60);
     var minsNow = parseInt(secs / 60) - hoursNow * 60;
@@ -32,9 +36,10 @@ function theInterval() {
     }
 }
 
-function start() {
+function startOrStop() {
     if (isCounting) {
         clearInterval(interval);
+        stopAlarm();
         document.getElementById("mainBtn").innerText = "Start";
         isCounting = false;
     }
@@ -45,9 +50,9 @@ function start() {
         var hours = parseInt(document.getElementById("hours").value);
         var mins = parseInt(document.getElementById("mins").value);
         secs = mins * 60 + hours * 60 * 60;
-        secs++;
         
-        theInterval();
-        interval = setInterval(theInterval, 1000);
+        secs++;
+        doTheIntervalJob();
+        interval = setInterval(doTheIntervalJob, 1000);
     }
 }
