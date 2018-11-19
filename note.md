@@ -4,4 +4,4 @@ a countdown page:
 - ✓ play a sound on the end
 - ✓ stop also the sound
 - ✓ add seconds
-- disable the inputs while counting
+- ✓ disable the inputs while counting

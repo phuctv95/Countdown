@@ -13,6 +13,18 @@ function stopAlarm() {
     audio.currentTime = 0;
 }
 
+function enableAllInputs() {
+    document.getElementById("hours").disabled = false;
+    document.getElementById("mins").disabled = false;
+    document.getElementById("secs").disabled = false;
+}
+
+function disableAllInputs() {
+    document.getElementById("hours").disabled = true;
+    document.getElementById("mins").disabled = true;
+    document.getElementById("secs").disabled = true;
+}
+
 function getUI(secsNow, minsNow, hoursNow) {
     var hoursUI = hoursNow.toString().length == 1 ? "0" + hoursNow : "" + hoursNow;
     var minsUI = minsNow.toString().length == 1 ? "0" + minsNow : "" + minsNow;
@@ -26,7 +38,7 @@ function doTheIntervalJob() {
     var hoursNow = parseInt(totalSecs / 60 / 60);
     var minsNow = parseInt(totalSecs / 60) - hoursNow * 60;
     var secsNow = totalSecs - hoursNow * 60 * 60 - minsNow * 60;
-    console.log(`${totalSecs} ${hoursNow} ${minsNow} ${secsNow}`);
+    // console.log(`${totalSecs} ${hoursNow} ${minsNow} ${secsNow}`);
     var uiNow = getUI(secsNow, minsNow, hoursNow);
     document.getElementById("ui").innerText = uiNow;
     document.title = uiNow;
@@ -40,10 +52,12 @@ function startOrStop() {
     if (isCounting) {
         clearInterval(interval);
         stopAlarm();
+        enableAllInputs();
         document.getElementById("mainBtn").innerText = "Start";
         isCounting = false;
     }
     else {
+        disableAllInputs();
         document.getElementById("mainBtn").innerText = "Stop";
         isCounting = true;
         
