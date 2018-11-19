@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    
+    <title>Count down</title>
+    
+    <script>
+      
+      function playAlarm() {
+        var audio = new Audio('Alarm-tone.mp3');
+        audio.currentTime = 0;
+        audio.loop = true;
+        audio.play();
+      }
+
+      function getUI(secsNow, minsNow, hoursNow) {
+        var hoursUI = hoursNow.toString().length == 1 ? "0" + hoursNow : "" + hoursNow;
+        var minsUI = minsNow.toString().length == 1 ? "0" + minsNow : "" + minsNow;
+        var secsUI = secsNow.toString().length == 1 ? "0" + secsNow : "" + secsNow;
+        var ui = (hoursUI == "00" ? "" : hoursUI + ":") + minsUI + ":" + secsUI;
+        return ui;
+      }
+
+      function start() {
+        var hours = parseInt(document.getElementById("hours").value);
+        var mins = parseInt(document.getElementById("mins").value);
+        var secs = mins*60 + hours*60*60;
+        secs++;
+
+        var x = setInterval(function () {
+          secs--;
+          var hoursNow = parseInt(secs/60/60);
+          var minsNow = parseInt(secs/60) - hoursNow*60;
+          var secsNow = secs - hoursNow*60*60 - minsNow*60;
+          // console.log(`${secs} ${hoursNow} ${minsNow} ${secsNow}`);
+          var uiNow = getUI(secsNow, minsNow, hoursNow);
+          document.getElementById("ui").innerText = uiNow;
+          document.title = uiNow;
+          if (secs == 0) {
+            clearInterval(x);
+            playAlarm();
+          }
+        }, 1000);
+      }
+
+    </script>
+    
+    <style type="text/css">
+      input[type=number]{
+        width: 3em;
+      }
+      #ui {
+        color: green;
+        font-size: 50px;
+      }
+      .body {
+  			text-align: center;
+  			margin-top: 50px;
+      }
+    </style>
+
+  </head>
+	
+	
+	<body>
+
+		<div class="body">
+	    Hours: <input type="number" id="hours" value="0"> mins: <input type="number" id="mins" value="45">
+	    <button onclick="start()">Start</button>
+	    <p id="ui">0</p>
+		</div>
+
+	</body>
+	
+</html>
+
